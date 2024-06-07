@@ -94,6 +94,7 @@
         <div class="modal-body">
           <form action="" id="form-student" method="post">
             @csrf
+            <input type="hidden" name="id" id="id">
             <div class="mb-3 row">
                 <label for="staticEmail" class="col-sm-2 col-form-label">NISN</label>
                 <div class="col-sm-10">

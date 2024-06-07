@@ -30,6 +30,7 @@ Route::resource('/students', StudentController::class)->names([
     'destroy' => 'students.destroy',
 ]);
 Route::get('/page-student', [StudentController::class, 'page'])->name('pageStudent');
+Route::post('/post-student', [StudentController::class, 'saveOrUpdate'])->name('saveOrUpdate');
 
 
 // Dashboard
