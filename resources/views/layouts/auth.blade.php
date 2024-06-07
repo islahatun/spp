@@ -23,6 +23,14 @@
         href="{{ asset('css/style.css') }}">
     <link rel="stylesheet"
         href="{{ asset('css/components.css') }}">
+
+        <!-- Template toastr File -->
+        <link href="{!! asset('assets/toastr/toastr.min.css') !!}" rel="stylesheet">
+        <!-- Template jquery ui File -->
+         <link href="{!! asset('assets/jquery-ui/jquery-ui.min.css') !!}" rel="stylesheet">
+        <!-- sweetalert -->
+        <link href="{!! asset('assets/sweetalert2/sweetalert2.min.css') !!}" rel="stylesheet">
+
     <!-- Start GA -->
     <script async
         src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>
@@ -68,6 +76,17 @@
     <script src="{{ asset('library/jquery.nicescroll/dist/jquery.nicescroll.min.js') }}"></script>
     <script src="{{ asset('library/moment/min/moment.min.js') }}"></script>
     <script src="{{ asset('js/stisla.js') }}"></script>
+    <!-- Template jquery ui File -->
+<script src="{!! asset('assets/jquery-ui/jquery-ui.min.js') !!}"></script>
+{{-- sweet alert --}}
+<script src="{!! asset('assets/sweetalert2/sweetalert2.min.js') !!}"></script>
+
+{{-- toastr --}}
+<script src="{!! asset('assets/toastr/toastr.min.js') !!}"></script>
+
+ <!-- jquery-deserialize modif -->
+ <script src="{!! asset('assets/node_modules/jquery-deserialize/src/jquery.deserialize.js') !!}"></script>
+ <!-- jquery-deserialize modif -->
 
     @stack('scripts')
 

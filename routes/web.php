@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\StudentController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,7 +14,23 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::redirect('/', '/dashboard-general-dashboard');
+// Route::redirect('/', '/dashboard-general-dashboard');
+
+Route::get('/', function () {
+    return view('welcome');
+});
+
+Route::resource('/students', StudentController::class)->names([
+    'index'   => 'students.index',
+    'create'  => 'students.create',
+    'store'   => 'students.store',
+    'show'    => 'students.show',
+    'edit'    => 'students.edit',
+    'update'  => 'students.update',
+    'destroy' => 'students.destroy',
+]);
+Route::get('/page-student', [StudentController::class, 'page'])->name('pageStudent');
+
 
 // Dashboard
 Route::get('/dashboard-general-dashboard', function () {
