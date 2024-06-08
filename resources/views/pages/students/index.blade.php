@@ -54,9 +54,8 @@
                                         </form>
                                     </div>
                                     <div class="mb-3 d-flex justify-content-end">
-                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ModalSiswa">
-                                            Launch demo modal
-                                          </button>
+                                        <button class="btn btn-success"
+                                        id="modal-1">Launch Modal</button>
                                     </div>
                                     <table class="table-striped table"
                                         id="table-1">
@@ -84,56 +83,72 @@
 
 
     <!-- Modal -->
-<div class="modal fade" id="ModalSiswa" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Form Siswa</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+
+<div class="modal fade"
+            tabindex="-1"
+            role="dialog"
+            id="exampleModal">
+            <div class="modal-dialog"
+                role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Form Siswa</h5>
+                        <button type="button"
+                            class="close"
+                            data-dismiss="modal"
+                            aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="" id="form-student" method="post">
+                            @csrf
+                            <input type="hidden" name="id" id="id">
+                            <div class="mb-3 row">
+                                <label for="staticEmail" class="col-sm-2 col-form-label">NISN</label>
+                                <div class="col-sm-10">
+                                  <input type="text" readonly class="form-control" name="nisn" id="nisn" >
+                                </div>
+                              </div>
+                              <div class="mb-3 row">
+                                <label for="inputPassword" class="col-sm-2 col-form-label">Nama</label>
+                                <div class="col-sm-10">
+                                  <input type="text" class="form-control" name="name" id="name">
+                                </div>
+                              </div>
+                              <div class="mb-3 row">
+                                <label for="inputPassword" class="col-sm-2 col-form-label">Kelas</label>
+                                <div class="col-sm-10">
+                                  <input type="text" class="form-control" name="kelas" id="kelas">
+                                </div>
+                              </div>
+                              <div class="mb-3 row">
+                                <label for="inputPassword" class="col-sm-2 col-form-label">No Hp</label>
+                                <div class="col-sm-10">
+                                  <input type="text" class="form-control" name="no_telp" id="no_telp">
+                                </div>
+                              </div>
+                              <div class="mb-3 row">
+                                <label for="inputPassword" class="col-sm-2 col-form-label">E-Mail</label>
+                                <div class="col-sm-10">
+                                  <input type="text" class="form-control" name="email" id="email">
+                                </div>
+                              </div>
+
+                    </div>
+                    <div class="modal-footer bg-whitesmoke br">
+                        <button type="button"
+                            class="btn btn-secondary"
+                            data-dismiss="modal">Close</button>
+                        <button type="button"
+                            class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+                </div>
+            </div>
         </div>
-        <div class="modal-body">
-          <form action="" id="form-student" method="post">
-            @csrf
-            <input type="hidden" name="id" id="id">
-            <div class="mb-3 row">
-                <label for="staticEmail" class="col-sm-2 col-form-label">NISN</label>
-                <div class="col-sm-10">
-                  <input type="text" readonly class="form-control" name="nisn" id="nisn" >
-                </div>
-              </div>
-              <div class="mb-3 row">
-                <label for="inputPassword" class="col-sm-2 col-form-label">Nama</label>
-                <div class="col-sm-10">
-                  <input type="password" class="form-control" name="name" id="name">
-                </div>
-              </div>
-              <div class="mb-3 row">
-                <label for="inputPassword" class="col-sm-2 col-form-label">Kelas</label>
-                <div class="col-sm-10">
-                  <input type="password" class="form-control" name="kelas" id="kelas">
-                </div>
-              </div>
-              <div class="mb-3 row">
-                <label for="inputPassword" class="col-sm-2 col-form-label">No Hp</label>
-                <div class="col-sm-10">
-                  <input type="password" class="form-control" name="no_telp" id="no_telp">
-                </div>
-              </div>
-              <div class="mb-3 row">
-                <label for="inputPassword" class="col-sm-2 col-form-label">E-Mail</label>
-                <div class="col-sm-10">
-                  <input type="password" class="form-control" name="email" id="email">
-                </div>
-              </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
-      </div>
     </div>
-  </div>
 @endsection
 
 @push('scripts')
@@ -149,7 +164,7 @@
     <script src="{{ asset('js/page/modules-datatables.js') }}"></script>
 
     <script>
-
+        var fm = '#form-student'
         $("#import").submit(function (e) {
                         e.preventDefault();
                         var formData = new FormData(this);
@@ -191,37 +206,35 @@
                         $(fm).each(function () {
                             this.reset();
                         });
-                        $('#modal').modal('toggle');
+                        $('#ModalSiswa').modal('toggle');
                         $("#modal-title").html("New");
 
                         method = 'post';
                         formUrl = `teacher`;
         }
 
-        function edit(obj) {
-                        let idx = getSelectedRowDataTables(dt);
-                        if (idx) {
-                            let data = dt
-                                .row(idx.row)
-                                .data();
+        function edit(obj,row) {
+            row = JSON.parse(decodeURIComponent(row));
+
+
                             // reset form
                             $(fm).each(function () {
                                 this.reset();
                             });
 
                             // mengambil data
-                            $(fm).deserialize(data)
+                            $(fm).deserialize(row)
 
-                            let id = data.id;
+                            let id = row.id;
 
                             // setting title modal
                             $("#modal-title").html("Ubah")
                             // open modal
-                            $('#modal').modal('toggle');
+                            $('#ModalSiswa').modal('toggle');
 
                             method = 'POST';
-                            formUrl = `/updateTeacher`;
-                        }
+                            // formUrl = `/updateTeacher`;
+
         }
 
         function remove(obj) {
@@ -344,7 +357,7 @@
                 "columnDefs": [
                 {"render": function ( data, type, row, meta ) {
                     let id = row.id
-                    return '<button class="btn btn-sm btn-primary" type="button" onclick="editData('+id+')">Edit</button>'
+                    return `<button class="btn btn-sm btn-primary" type="button" onclick='edit(${id}, "${encodeURIComponent(JSON.stringify(row))}")'>Edit</button>`;
                 },
                 "targets": 5},
             ]
