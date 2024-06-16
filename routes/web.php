@@ -43,6 +43,8 @@ Route::resource('/spp',TransTagihanController::class)->names([
     'destroy' => 'spp.destroy',
 ]);
 Route::get('/page-spp', [TransTagihanController::class, 'page'])->name('pageSpp');
+Route::get('/page-spp-detail', [TransTagihanController::class, 'pageDetail'])->name('pageSppDetail');
+Route::post('/payment', [TransTagihanController::class, 'payment'])->name('payment');
 
 
 // Dashboard

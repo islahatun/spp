@@ -26,6 +26,10 @@
 
     <link rel="stylesheet"
         href="{{ asset('library/datatables/media/css/jquery.dataTables.min.css') }}">
+
+        <script type="text/javascript"
+      src="https://app.sandbox.midtrans.com/snap/snap.js"
+      data-client-key="{{ config('midtrans.client_key') }}"></script>
 @endpush
 
 @section('main')
@@ -36,7 +40,11 @@
                 <div class="section-header-breadcrumb">
                     <div class="breadcrumb-item active"><a href="#">Pembayaran</a></div>
                     <div class="breadcrumb-item"><a href="#">SPP</a></div>
+                    <div class="breadcrumb-item"><a href="#">Detail SPP</a></div>
                 </div>
+            </div>
+            <div class="mb-3 d-flex justify-content-end">
+                <button class="btn btn-dark" onclick="back()">Kembali</button>
             </div>
 
             <div class="section-body">
@@ -45,49 +53,11 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4>SPP</h4>
+                                <h4>Detail SPP</h4>
+
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <div class="mb-3 d-flex">
-                                        <form class="form-inline" method="post" id="form-spp">
-                                            @csrf
-                                            <label class="sr-only"
-                                                for="startDate">Tanggal Mulai</label>
-                                            <input type="text"
-                                                class="form-control mr-sm-2 mb-2 datepicker"
-                                                id="startDate" name="startDate"
-                                                placeholder="Tanggal Mulai">
-
-                                            <label class="sr-only"
-                                                for="endDate">Tanggal Selesai</label>
-                                            <div class="input-group mr-sm-2 mb-2">
-                                                <input type="text"
-                                                    class="form-control datepicker"
-                                                    id="endDate"
-                                                    placeholder="Tanggal Selesai" name="endDate">
-                                            </div>
-                                            <div class="input-group mr-sm-2 mb-2">
-                                                <input type="text"
-                                                    class="form-control"
-                                                    id="billing"
-                                                    placeholder="Pembayaran" name="billing">
-                                            </div>
-                                            <div class="input-group mr-sm-2 mb-2">
-                                                <input type="text"
-                                                    class="form-control" readonly
-                                                    id="total_billing_desc"
-                                                    placeholder="Total Pembayaran" name="total_billing_desc">
-                                                    <input type="hidden"
-                                                    class="form-control"
-                                                    id="total_billing"
-                                                    placeholder="Total Pembayaran" name="total_billing">
-                                            </div>
-                                            <div class="input-group mr-sm-2 mb-2">
-                                                <button class="btn btn-primary">Submit</button>
-                                            </div>
-                                        </form>
-                                    </div>
 
                                     <table class="table-striped table"
                                         id="table-1">
@@ -96,6 +66,7 @@
                                                 <th>Nisn</th>
                                                 <th>Nama</th>
                                                 <th>Kelas</th>
+                                                <th>Bulan</th>
                                                 <th>Tagihan</th>
                                                 <th>Satus</th>
                                                 <th>Aksi</th>
@@ -139,14 +110,11 @@
 
     <script>
 
-        $("#billing").keyup(function(){
-            let startDate       = moment($("#startDate").val());
-            let endDate         = moment($("#endDate").val());
-            let monthDefference = endDate.diff(startDate,"months");
-            let total_Billing   = $("#billing").val()*monthDefference;
-            $("#total_billing").val(total_Billing);
-            $("#total_billing_desc").val(total_Billing);
-        })
+        function back(){
+            let url = "{{ route('spp.index') }}";
+           window.location.href = url;
+        }
+
         $("#form-spp").submit(function (e) {
                         e.preventDefault();
                         var formData = new FormData(this);
@@ -191,7 +159,10 @@
                 "select": true,
                 // "scrollX": true,
                 "ajax": {
-                    "url": "{{ route('pageSpp') }}",
+                    "url": "{{ route('pageSppDetail') }}",
+                    "data":{
+                        "id" : {{ $id }}
+                    }
                 },
                 "columns": [ {
                     data: "username",
@@ -205,7 +176,13 @@
                     data: "kelas",
                     orderable: true,
                     searchable: true
-                }, {
+                },
+                {
+                    data: "bulan",
+                    orderable: true,
+                    searchable: true
+                },
+                {
                     data: "tagihan",
                     orderable: true,
                     searchable: true
@@ -224,17 +201,67 @@
                 "columnDefs": [
                 {"render": function ( data, type, row, meta ) {
                     let id = row.id
-                    return `<button class="btn btn-sm btn-primary" type="button" onclick='detail(${id})'>Detail</button>`;
+                    return '<button class="btn btn-sm btn-primary" type="button" onclick="bayar('+id+')">Bayar</button>';
                 },
-                "targets": 5},
+                "targets": 6},
             ]
             });
         });
 
-        function detail(id){
-            let url = "{{ route('spp.show', ['spp' => ':sppId']) }}";
-            url = url.replace(':sppId', id);
-           window.location.href = url;
+        function bayar(id){
+            $.ajax({
+                    url: '{{ route('payment') }}',
+                    type: 'post',
+                    cache: false,
+                                    data: {
+                                        "_token": "{{ csrf_token() }}",
+                                        'id':id
+                                    },
+                    success: function(data, textStatus, jqXHR) {
+
+                        let view = jQuery.parseJSON(data);
+                        if (view.status == true) {
+
+
+                            // For example trigger on button clicked, or any time you need;
+                        // Trigger snap popup. @TODO: Replace TRANSACTION_TOKEN_HERE with your transaction token
+                        window.snap.pay(''+view.token+'', {
+                        onSuccess: function(result){
+                            /* You may add your own implementation here */
+                            alert("payment success!"); console.log(result);
+                        },
+                        onPending: function(result){
+                            /* You may add your own implementation here */
+                            alert("wating your payment!"); console.log(result);
+                        },
+                        onError: function(result){
+                            /* You may add your own implementation here */
+                            alert("payment failed!"); console.log(result);
+                        },
+                        onClose: function(){
+                            /* You may add your own implementation here */
+                            alert('you closed the popup without finishing the payment');
+                        }
+                        })
+
+
+                        } else {
+                            toastr.error(view.message);
+                            setTimeout(function() {
+                                location.reload();
+                            }, 1000);
+                        }
+                    },
+                    error: function(reject) {
+
+                        var response = $.parseJSON(reject.responseText);
+                        $.each(response.errors, function(key, val) {
+                            $("#" + key + "_error").text(val[0]);
+                        })
+
+                    }
+
+                });
         }
 
 

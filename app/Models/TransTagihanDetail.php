@@ -14,4 +14,8 @@ class TransTagihanDetail extends Model
     public function TagihanHeader(){
         return $this->belongsTo(TransTagihan::class,'trans_tagihan_id','id');
     }
+
+    public function user(){
+        return $this->belongsTo(User::class,'user_id','id');
+    }
 }
