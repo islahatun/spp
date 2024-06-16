@@ -34,18 +34,18 @@
                 <a class="nav-link"
                     href="{{ url('blank-page') }}"><i class="far fa-square"></i> <span>Blank Page</span></a>
             </li> --}}
-            <li class="nav-item dropdown {{ $type_menu === 'bootstrap' ? 'active' : '' }}">
+            <li class="nav-item dropdown {{ $type_menu === 'Pembayaran' ? 'active' : '' }}">
                 <a href="#"
                     class="nav-link has-dropdown"><i class="fas fa-th"></i> <span>Pembayaran</span></a>
                 <ul class="dropdown-menu">
-                    <li class="{{ Request::is('bootstrap-alert') ? 'active' : '' }}">
+                    <li class="{{ Request::is('spp') ? 'active' : '' }}">
                         <a class="nav-link"
-                            href="{{ url('bootstrap-alert') }}">Spp</a>
+                            href="{{ url('spp') }}">Spp</a>
                     </li>
-                    <li class="{{ Request::is('bootstrap-badge') ? 'active' : '' }}">
+                    {{-- <li class="{{ Request::is('bootstrap-badge') ? 'active' : '' }}">
                         <a class="nav-link"
                             href="{{ url('bootstrap-badge') }}">Pembayaran Lainnya</a>
-                    </li>
+                    </li> --}}
                 </ul>
             </li>
             <li class="menu-header">Stisla</li>

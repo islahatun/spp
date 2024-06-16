@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\TransTagihanController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,6 +32,17 @@ Route::resource('/students', StudentController::class)->names([
 ]);
 Route::get('/page-student', [StudentController::class, 'page'])->name('pageStudent');
 Route::post('/post-student', [StudentController::class, 'saveOrUpdate'])->name('saveOrUpdate');
+
+Route::resource('/spp',TransTagihanController::class)->names([
+    'index'   => 'spp.index',
+    'create'  => 'spp.create',
+    'store'   => 'spp.store',
+    'show'    => 'spp.show',
+    'edit'    => 'spp.edit',
+    'update'  => 'spp.update',
+    'destroy' => 'spp.destroy',
+]);
+Route::get('/page-spp', [TransTagihanController::class, 'page'])->name('pageSpp');
 
 
 // Dashboard

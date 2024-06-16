@@ -14,9 +14,11 @@ return new class extends Migration
         Schema::create('trans_tagihan_details', function (Blueprint $table) {
             $table->id();
             $table->foreignId('trans_tagihan_id');
-            $table->string('order_id');
+            $table->foreignId('user_id');
+            $table->string('order_id')->nullable();
             $table->date('date');
-            $table->double('payment');
+            $table->date('payment_date')->nullable();
+            $table->double('payment')->nullable();
 
             $table->timestamps();
         });

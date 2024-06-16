@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id');
             $table->string('kelas');
-            $table->string('billing_type');
             $table->date('from_date');
             $table->date('to_date');
             $table->double('billing');

@@ -61,7 +61,6 @@
                                         id="table-1">
                                         <thead>
                                             <tr class="text-center">
-                                                <th class="text-center" width="40">#</th>
                                                 <th>Nama</th>
                                                 <th>Nisn</th>
                                                 <th>Kelas</th>
@@ -328,11 +327,7 @@
                 "ajax": {
                     "url": "{{ route('pageStudent') }}",
                 },
-                "columns": [{
-                    data: "DT_RowIndex",
-                    orderable: true,
-                    searchable: true
-                }, {
+                "columns": [ {
                     data: "name",
                     orderable: true,
                     searchable: true
@@ -359,7 +354,7 @@
                     let id = row.id
                     return `<button class="btn btn-sm btn-primary" type="button" onclick='edit(${id}, "${encodeURIComponent(JSON.stringify(row))}")'>Edit</button>`;
                 },
-                "targets": 5},
+                "targets": 4},
             ]
             });
         });
