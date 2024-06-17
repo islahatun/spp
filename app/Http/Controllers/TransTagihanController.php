@@ -165,7 +165,9 @@ class TransTagihanController extends Controller
                 }
                 return $status;
             })
-
+            ->addColumn('order_id', function ($data) {
+                return $data->order_id;
+            })
             ->addColumn('tagihan', function ($data) {
                 return $data->TagihanHeader->billing;
             })

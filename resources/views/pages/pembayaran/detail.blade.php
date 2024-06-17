@@ -68,6 +68,7 @@
                                                 <th>Kelas</th>
                                                 <th>Bulan</th>
                                                 <th>Tagihan</th>
+                                                <th>Nomor Pembayaran</th>
                                                 <th>Satus</th>
                                                 <th>Aksi</th>
                                             </tr>
@@ -188,6 +189,11 @@
                     searchable: true
                 },
                 {
+                    data: "order_id",
+                    orderable: true,
+                    searchable: true
+                },
+                {
                     data: "status",
                     orderable: true,
                     searchable: true
@@ -208,7 +214,7 @@
                     }
 
                 },
-                "targets": 6},
+                "targets": 7},
             ]
             });
         });
