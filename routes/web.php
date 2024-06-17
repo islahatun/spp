@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\laporanController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TransTagihanController;
 use Illuminate\Support\Facades\Route;
@@ -46,6 +47,11 @@ Route::get('/page-spp', [TransTagihanController::class, 'page'])->name('pageSpp'
 Route::get('/page-spp-detail', [TransTagihanController::class, 'pageDetail'])->name('pageSppDetail');
 Route::post('/payment', [TransTagihanController::class, 'payment'])->name('payment');
 Route::get('/kwitansi/{id}', [TransTagihanController::class, 'kwitansi'])->name('kwitansi');
+
+Route::get('/laporan', [laporanController::class, 'index'])->name('index');
+Route::get('/page-laporan-lunas', [laporanController::class, 'pageLunas'])->name('pageLaporanLunas');
+Route::get('/page-laporan-belumLunas', [laporanController::class, 'pageBelumLunas'])->name('pageLaporanBelumLunas');
+Route::get('/cetak-laporan/{id}', [laporanController::class, 'cetakPdf'])->name('cetakPdf');
 
 
 // Dashboard

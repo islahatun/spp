@@ -48,20 +48,19 @@
                     </li> --}}
                 </ul>
             </li>
-            <li class="menu-header">Stisla</li>
-            <li class="nav-item dropdown {{ $type_menu === 'components' ? 'active' : '' }}">
+            <li class="nav-item dropdown {{ $type_menu === 'Laporan' ? 'active' : '' }}">
                 <a href="#"
                     class="nav-link has-dropdown"><i class="fas fa-th-large"></i>
                     <span>Laporan</span></a>
                 <ul class="dropdown-menu">
-                    <li class="{{ Request::is('components-article') ? 'active' : '' }}">
+                    <li class="{{ Request::is('laporan') ? 'active' : '' }}">
                         <a class="nav-link"
-                            href="{{ url('components-article') }}">Laporan Sudah bayar</a>
+                            href="{{ url('laporan') }}">Laporan Pembayaran</a>
                     </li>
-                    <li class="{{ Request::is('components-avatar') ? 'active' : '' }}">
+                    {{-- <li class="{{ Request::is('components-avatar') ? 'active' : '' }}">
                         <a class="nav-link"
                             href="{{ url('components-avatar') }}">Laporan Belum Bayar</a>
-                    </li>
+                    </li> --}}
                     {{-- <li class="{{ Request::is('components-chat-box') ? 'active' : '' }}">
                         <a class="nav-link beep beep-sidebar"
                             href="{{ url('components-chat-box') }}">Chat Box</a>
