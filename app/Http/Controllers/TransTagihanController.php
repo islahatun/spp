@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use App\Models\TransTagihanDetail;
 use Illuminate\Support\Facades\DB;
+use PDF;
 
 class TransTagihanController extends Controller
 {
@@ -89,9 +90,6 @@ class TransTagihanController extends Controller
             $allMonths[] = $currentDate->toDateString(); // Simpan tanggal dalam format Y-m-d
             $currentDate->addMonth(); // Tambah satu bulan ke currentDate
         }
-
-
-
 
         DB::beginTransaction();
         try {
@@ -240,9 +238,30 @@ class TransTagihanController extends Controller
         if ($hashed == $request->signature_key) {
             if ($request->transaction_status == 'capture') {
                 $payment    = TransTagihanDetail::whre('order_id',$request->order_id);
-                $payment->update(['payment_date' => date(strtotime($request->transaction_time))]);
+                $payment->update(['payment_date' => date("Y-m-d")]);
+
+                if($payment){
+                    $message = array(
+                        'status' => true,
+                        'message' => 'Pembayaran berhasil'
+                    );
+                }else{
+                    $message = array(
+                        'status' => false,
+                        'message' => 'Data gagal mengirim data'
+                    );
+                }
             }
+
+
+        }else{
+            $message = array(
+                'status' => false,
+                'message' => 'Data gagal mengirim data'
+            );
+
         }
+        echo json_encode($message);
     }
 
     /**
@@ -267,5 +286,18 @@ class TransTagihanController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function kwitansi($id){
+        $data       = TransTagihanDetail::with('user','TagihanHeader')->find($id);
+        $bulan      = Carbon::parse($data->date);
+        $content    = [
+            'detail'    => TransTagihanDetail::with('user','TagihanHeader')->find($id),
+            'bulan'     => Carbon::parse($data->date)
+        ];
+
+        $pdf = PDF::loadview('pages.pembayaran.kwitansi',$content);
+    	return $pdf->download('Kwitansi '.$data->user->username. ' Bulan '. $bulan->translatedFormat('F').'.pdf');
+
     }
 }

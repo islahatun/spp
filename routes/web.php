@@ -45,6 +45,7 @@ Route::resource('/spp',TransTagihanController::class)->names([
 Route::get('/page-spp', [TransTagihanController::class, 'page'])->name('pageSpp');
 Route::get('/page-spp-detail', [TransTagihanController::class, 'pageDetail'])->name('pageSppDetail');
 Route::post('/payment', [TransTagihanController::class, 'payment'])->name('payment');
+Route::get('/kwitansi/{id}', [TransTagihanController::class, 'kwitansi'])->name('kwitansi');
 
 
 // Dashboard

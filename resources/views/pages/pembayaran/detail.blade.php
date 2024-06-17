@@ -201,7 +201,12 @@
                 "columnDefs": [
                 {"render": function ( data, type, row, meta ) {
                     let id = row.id
-                    return '<button class="btn btn-sm btn-primary" type="button" onclick="bayar('+id+')">Bayar</button>';
+                    if(row.payment_date == null){
+                        return '<button class="btn btn-sm btn-primary" type="button" onclick="bayar('+id+')">Bayar</button>';
+                    }else{
+                        return '<button class="btn btn-sm btn-success" type="button" onclick="kwitansi('+id+')">Kwitansi</button>';
+                    }
+
                 },
                 "targets": 6},
             ]
@@ -262,6 +267,12 @@
                     }
 
                 });
+        }
+
+        function kwitansi(id){
+            let url = "{{ route('kwitansi', ['id' => ':sppId']) }}";
+            url = url.replace(':sppId', id);
+           window.location.href = url;
         }
 
 
