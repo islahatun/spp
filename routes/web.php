@@ -4,6 +4,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\laporanController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TransTagihanController;
+use App\Http\Controllers\TransTagihanSiswaController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -44,10 +45,25 @@ Route::resource('/spp',TransTagihanController::class)->names([
     'update'  => 'spp.update',
     'destroy' => 'spp.destroy',
 ]);
+
 Route::get('/page-spp', [TransTagihanController::class, 'page'])->name('pageSpp');
 Route::get('/page-spp-detail', [TransTagihanController::class, 'pageDetail'])->name('pageSppDetail');
 Route::post('/payment', [TransTagihanController::class, 'payment'])->name('payment');
 Route::get('/kwitansi/{id}', [TransTagihanController::class, 'kwitansi'])->name('kwitansi');
+
+Route::resource('/sppStudent',TransTagihanSiswaController::class)->names([
+    'index'   => 'sppStudent.index',
+    'create'  => 'sppStudent.create',
+    'store'   => 'sppStudent.store',
+    'show'    => 'sppStudent.show',
+    'edit'    => 'sppStudent.edit',
+    'update'  => 'sppStudent.update',
+    'destroy' => 'sppStudent.destroy',
+]);
+
+Route::get('/page-sppStudent', [TransTagihanSiswaController::class, 'page'])->name('pageSppStudent');
+Route::post('/paymentStudent', [TransTagihanSiswaController::class, 'payment'])->name('paymentStudent');
+Route::get('/kwitansiStudent/{id}', [TransTagihanSiswaController::class, 'kwitansi'])->name('kwitansiStudent');
 
 Route::get('/laporan', [laporanController::class, 'index'])->name('index');
 Route::get('/page-laporan-lunas', [laporanController::class, 'pageLunas'])->name('pageLaporanLunas');
