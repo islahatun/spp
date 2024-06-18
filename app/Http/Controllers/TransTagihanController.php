@@ -234,13 +234,15 @@ class TransTagihanController extends Controller
 
     public function callback(Request $request)
     {
-        $serverKey  = env('midtrans.server_key');
+        $serverKey  = config('midtrans.server_key');
         $hashed     = hash('sha512', $request->order_id . $request->status_code . $request->gross_amount . $serverKey);
-
         if ($hashed == $request->signature_key) {
             if ($request->transaction_status == 'capture') {
-                $payment    = TransTagihanDetail::whre('order_id',$request->order_id);
-                $payment->update(['payment_date' => date("Y-m-d")]);
+                $update = [
+                    "payment_date"  => date("Y-m-d"),
+                    "payment"       => $request->gross_amount
+                ];
+                $payment    = TransTagihanDetail::where('order_id',$request->order_id)->update($update);
 
                 if($payment){
                     $message = array(
@@ -250,7 +252,7 @@ class TransTagihanController extends Controller
                 }else{
                     $message = array(
                         'status' => false,
-                        'message' => 'Data gagal mengirim data'
+                        'message' => 'Pengembalian data gagal'
                     );
                 }
             }
@@ -259,7 +261,7 @@ class TransTagihanController extends Controller
         }else{
             $message = array(
                 'status' => false,
-                'message' => 'Data gagal mengirim data'
+                'message' => 'Gagal mengirim data'
             );
 
         }

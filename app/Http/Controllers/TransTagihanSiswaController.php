@@ -150,39 +150,39 @@ class TransTagihanSiswaController extends Controller
         // return view('payment',compact('snapToken','paymnet'));
         echo json_encode($message);
     }
-    public function callback(Request $request)
-    {
-        $serverKey  = env('midtrans.server_key');
-        $hashed     = hash('sha512', $request->order_id . $request->status_code . $request->gross_amount . $serverKey);
+    // public function callback(Request $request)
+    // {
+    //     $serverKey  = env('midtrans.server_key');
+    //     $hashed     = hash('sha512', $request->order_id . $request->status_code . $request->gross_amount . $serverKey);
 
-        if ($hashed == $request->signature_key) {
-            if ($request->transaction_status == 'capture') {
-                $payment    = TransTagihanDetail::whre('order_id',$request->order_id);
-                $payment->update(['payment_date' => date("Y-m-d")]);
+    //     if ($hashed == $request->signature_key) {
+    //         if ($request->transaction_status == 'capture') {
+    //             $payment    = TransTagihanDetail::whre('order_id',$request->order_id)->update(['payment_date' => date("Y-m-d")]);
+    //             dd($request->order_id);
 
-                if($payment){
-                    $message = array(
-                        'status' => true,
-                        'message' => 'Pembayaran berhasil'
-                    );
-                }else{
-                    $message = array(
-                        'status' => false,
-                        'message' => 'Data gagal mengirim data'
-                    );
-                }
-            }
+    //             if($payment){
+    //                 $message = array(
+    //                     'status' => true,
+    //                     'message' => 'Pembayaran berhasil'
+    //                 );
+    //             }else{
+    //                 $message = array(
+    //                     'status' => false,
+    //                     'message' => 'Data gagal mengirim data'
+    //                 );
+    //             }
+    //         }
 
 
-        }else{
-            $message = array(
-                'status' => false,
-                'message' => 'Data gagal mengirim data'
-            );
+    //     }else{
+    //         $message = array(
+    //             'status' => false,
+    //             'message' => 'Data gagal mengirim data'
+    //         );
 
-        }
-        echo json_encode($message);
-    }
+    //     }
+    //     echo json_encode($message);
+    // }
 
     public function kwitansi($id){
         $data       = TransTagihanDetail::with('user','TagihanHeader')->find($id);

@@ -192,7 +192,11 @@
                         window.snap.pay(''+view.token+'', {
                         onSuccess: function(result){
                             /* You may add your own implementation here */
-                            alert("payment success!"); console.log(result);
+                            // alert("payment success!"); console.log(result);
+                            toastr.error(view.message);
+                            setTimeout(function() {
+                                location.reload();
+                            }, 1000);
                         },
                         onPending: function(result){
                             /* You may add your own implementation here */
