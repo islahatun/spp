@@ -34,9 +34,12 @@
             <div class="section-header">
                 <h1>Profile</h1>
                 <div class="section-header-breadcrumb">
-                    <div class="breadcrumb-item active"><a href="#">Profile</a></div>
-                    <div class="breadcrumb-item"><a href="#">profile</a></div>
+                    <div class="breadcrumb-item active"><a href="#">Siswa</a></div>
+                    <div class="breadcrumb-item"><a href="#">Daftar Siswa</a></div>
                 </div>
+            </div>
+            <div class="mb-3 d-flex justify-content-end">
+                <button class="btn btn-dark" onclick="back()">Kembali</button>
             </div>
 
             <div class="section-body">
@@ -45,33 +48,39 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4>Profile</h4>
+                                <h4>Form Siswa</h4>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
                                     <div class="col col-5">
-                                        <form action="" method="post" id="profile">
+                                        <form action="" method="post" id="formSiswa">
                                             @csrf
-                                            <input type="hidden" name="id" value="{{ $user->id }}">
+                                            <input type="hidden" name="id" value="{{ $user?$user->id:'' }}">
                                             <div class="form-group">
                                                 <label>Username</label>
-                                                <input type="text" name="username" value="{{ $user->username }}"
-                                                    class="form-control" readonly>
+                                                <input type="text" name="username" value="{{ $user?$user->username:'' }}"
+                                                    class="form-control" >
                                             </div>
                                             <div class="form-group">
                                                 <label>Nama</label>
-                                                <input type="text" name="name" value="{{ $user->name }}"
-                                                    class="form-control" readonly>
+                                                <input type="text" name="name" value="{{ $user?$user->name:'' }}"
+                                                    class="form-control" >
                                             </div>
                                             <div class="form-group">
                                                 <label>Kelas</label>
-                                                <input type="text" name="kelas" value="{{ $user->kelas }}"
-                                                    class="form-control" readonly>
+                                                <input type="text" name="kelas" value="{{ $user?$user->kelas:"" }}"
+                                                    class="form-control" >
                                             </div>
 
                                             <div class="form-group">
-                                                <label>Password</label>
-                                                <input type="password" name="password"
+                                                <label>No Hp</label>
+                                                <input type="no_telp" name="no_telp" value="{{ $user?$user->no_telp:"" }}"
+                                                    class="form-control">
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>E-Mail</label>
+                                                <input type="email" name="email" value="{{ $user?$user->email:"" }}"
                                                     class="form-control">
                                             </div>
 
@@ -115,19 +124,11 @@
 
     <script>
 
-        $("#billing").keyup(function(){
-            let startDate       = moment($("#startDate").val());
-            let endDate         = moment($("#endDate").val());
-            let monthDefference = endDate.diff(startDate,"months");
-            let total_Billing   = $("#billing").val()*monthDefference;
-            $("#total_billing").val(total_Billing);
-            $("#total_billing_desc").val(total_Billing);
-        })
-        $("#profile").submit(function (e) {
+        $("#formSiswa").submit(function (e) {
                         e.preventDefault();
                         var formData = new FormData(this);
                         $.ajax({
-                            url: "{{ route('ubahPassword') }}",
+                            url: "{{ route('saveOrUpdate') }}",
                             type: 'post',
                             data: formData,
                             processData: false,
@@ -159,9 +160,9 @@
                         });
         });
 
-        function detail(id){
-            let url = "{{ route('spp.show', ['spp' => ':sppId']) }}";
-            url = url.replace(':sppId', id);
+
+        function back(){
+            let url = "{{ route('students.index') }}";
            window.location.href = url;
         }
 

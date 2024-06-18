@@ -31,7 +31,7 @@ class StudentController extends Controller
     }
 
     public function page(){
-        $result = User::all();
+        $result = User::where('role','Siswa')->get();
 
         return DataTables::of($result)->toJson();
     }
@@ -56,15 +56,17 @@ class StudentController extends Controller
             'username'  => 'required',
             'name'      => 'required',
             'kelas'     => 'required',
-            'email'     => 'required'
+            'email'     => 'required',
+            'no_telp'   => 'required'
         ]);
-        $validate['role']       = 'Student';
-        $validate['password']   = Hash::make('Password');
+        $validate['role']       = 'Siswa';
+        $validate['password']   = Hash::make('Password123');
 
         if($request->id){
-            $result = User::create($validate);
-        }else{
             $result = User::where('id',$request->id)->update($validate);
+
+        }else{
+            $result = User::create($validate);
         }
 
         if($result){
@@ -88,7 +90,16 @@ class StudentController extends Controller
      */
     public function show(string $id)
     {
-        //
+        if($id != 0){
+            $user   = User::find($id);
+        }else{
+            $user   = "";
+        }
+        $data   = [
+            'type_menu' => 'Student',
+            'user'      => $user
+        ];
+        return view('pages.students.createUpdate',$data);
     }
 
     /**
@@ -96,7 +107,11 @@ class StudentController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $data   = [
+            'type_menu' => 'Student',
+            'data'      => User::find($id)
+        ];
+        return view('pages.students.createUpdate',$data);
     }
 
     /**
