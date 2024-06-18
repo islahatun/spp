@@ -16,15 +16,16 @@
 
         <div class="card-body">
             <form method="POST"
-                action="#"
+                action="{{ route('login') }}"
                 class="needs-validation"
                 novalidate="">
+                @csrf
                 <div class="form-group">
                     <label for="email">NISN</label>
-                    <input id="email"
-                        type="email"
+                    <input id="username"
+                        type="username"
                         class="form-control"
-                        name="email"
+                        name="username"
                         tabindex="1"
                         required
                         autofocus>
