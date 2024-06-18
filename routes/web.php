@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\laporanController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TransTagihanController;
@@ -54,14 +55,7 @@ Route::get('/page-laporan-belumLunas', [laporanController::class, 'pageBelumLuna
 Route::get('/cetak-laporan/{id}', [laporanController::class, 'cetakPdf'])->name('cetakPdf');
 
 Route::middleware(['auth'])->group(function(){
-    Route::get('home',function(){
-        return view('pages.dashboard-general-dashboard',['type_menu' => 'dashboard']);
-    })->name('home');
+    Route::get('home', [DashboardController::class, 'index'])->name('home');
 });
 
-
-// Dashboard
-Route::get('/dashboard-general-dashboard', function () {
-    return view('pages.dashboard-general-dashboard', ['type_menu' => 'dashboard']);
-});
 
