@@ -21,7 +21,7 @@
                 novalidate="">
                 @csrf
                 <div class="form-group">
-                    <label for="email">NISN</label>
+                    <label for="username">NISN</label>
                     <input id="username"
                         type="username"
                         class="form-control"

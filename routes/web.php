@@ -74,4 +74,7 @@ Route::middleware(['auth'])->group(function(){
     Route::get('home', [DashboardController::class, 'index'])->name('home');
 });
 
+Route::get('/profile', [DashboardController::class, 'profile'])->name('profile');
+Route::post('/ubahPassword', [DashboardController::class, 'ubahPassword'])->name('ubahPassword');
+
 
