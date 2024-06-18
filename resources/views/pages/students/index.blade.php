@@ -261,7 +261,7 @@
                 "columnDefs": [
                 {"render": function ( data, type, row, meta ) {
                     let id = row.id
-                    return `<button class="btn btn-sm btn-primary" type="button" onclick='manual(${id}, "${encodeURIComponent(JSON.stringify(row))}")'>Edit</button>`;
+                    return `<button class="btn btn-sm btn-warning" type="button" onclick='manual(${id}, "${encodeURIComponent(JSON.stringify(row))}")'>Edit</button>`;
                 },
                 "targets": 4},
             ]
