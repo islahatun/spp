@@ -143,7 +143,7 @@
             let startDate       = moment($("#startDate").val());
             let endDate         = moment($("#endDate").val());
             let monthDefference = endDate.diff(startDate,"months");
-            let total_Billing   = $("#billing").val()*monthDefference;
+            let total_Billing   = $("#billing").val()*(monthDefference+1);
             $("#total_billing").val(total_Billing);
             $("#total_billing_desc").val(total_Billing);
         })

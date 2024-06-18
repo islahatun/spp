@@ -243,6 +243,15 @@ class TransTagihanController extends Controller
                     "payment"       => $request->gross_amount
                 ];
                 $payment    = TransTagihanDetail::where('order_id',$request->order_id)->update($update);
+                $getData    = TransTagihanDetail::where('order_id',$request->order_id)->first();
+
+                $header     = TransTagihan::where('id',$getData->trans_tagihan_id)->first();
+                // dd($getData->trans_tagihan_id);
+
+                $detail     = TransTagihanDetail::where('trans_tagihan_id',$header->id)->sum('payment');
+                if($header->total_billing == $detail ){
+                    TransTagihan::where('id',$getData->trans_tagihan_id)->update(['status'=>1]);
+                }
 
                 if($payment){
                     $message = array(
