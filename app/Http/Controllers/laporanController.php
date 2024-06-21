@@ -104,7 +104,7 @@ class laporanController extends Controller
 
 
         $pdf = PDF::loadview($view,$content);
-    	return $pdf->download($fileName);
+    	return $pdf->stream($fileName);
 
     }
 }

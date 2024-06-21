@@ -9,7 +9,22 @@
 <body>
     <table border="1" cellspacing="0" width="100%">
         <tr>
-            <td>Nama Sekolah</td>
+            <td>
+                <table border="0">
+                    <tr>
+                        <td>
+                            <img src="{{ public_path('img/logo.png') }}" alt="" width="50px" height="50px" srcset="">
+                        </td>
+                        <td>
+                            <center>
+                                PONDOK PESANTREN "AL-RAHMAH"
+                                <p>Jl. Ciruas Petir, KM 6 Kel.Lebak Wangi, Kec. Walantaka-Kota Seang Banten</p>
+                            </center>
+
+                        </td>
+                    </tr>
+                </table>
+            </td>
         </tr>
         <tr>
             <td>

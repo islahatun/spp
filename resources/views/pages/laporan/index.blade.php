@@ -50,7 +50,7 @@
                             <div class="card-body">
                                 <div class="table-responsive">
                                     <div class="mb-3 d-flex justify-content-end">
-                                        <button class="btn btn-success" onclick="print(1)">Cetak</button>
+                                        <button class="btn btn-success"  onclick="print(1)">Cetak</button>
                                     </div>
 
                                     <table class="table-striped table"
@@ -79,7 +79,7 @@
                             <div class="card-body">
                                 <div class="table-responsive">
                                     <div class="mb-3 d-flex justify-content-end">
-                                        <button class="btn btn-success" onclick="print(2)">Cetak</button>
+                                        <button class="btn btn-success" target="blank" onclick="print(2)">Cetak</button>
                                     </div>
 
                                     <table class="table-striped table"
@@ -201,7 +201,8 @@
         function print(id){
             let url = "{{ route('cetakPdf', ['id' => ':sppId']) }}";
             url = url.replace(':sppId', id);
-           window.location.href = url;
+        //    window.location.href = url;
+        window.open(url, '_blank');
         }
 
 
