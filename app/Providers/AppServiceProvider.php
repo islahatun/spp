@@ -25,8 +25,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         // digunakan ketika hosting
-        if (env(key: 'APP_ENV') !=='local') {
-            URL::forceScheme(scheme:'https');
-          }
+        // if (env(key: 'APP_ENV') !=='local') {
+        //     URL::forceScheme(scheme:'https');
+        //   }
     }
 }
