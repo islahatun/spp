@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use PDF;
 use Carbon\Carbon;
 use App\Models\User;
+use App\Mail\notifMail;
 use Illuminate\Support\Str;
 use App\Models\TransTagihan;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use App\Models\TransTagihanDetail;
 use Illuminate\Support\Facades\DB;
-use PDF;
+use Illuminate\Support\Facades\Mail;
 
 class TransTagihanController extends Controller
 {
@@ -35,7 +37,12 @@ class TransTagihanController extends Controller
 
     public function page()
     {
-        $result = TransTagihan::with('user')->get();
+        $result = TransTagihan::with('user')
+                    ->whereHas('user',function($query){
+                        $query->where('role','Siswa');
+                        $query->where('status','Aktif');
+                    })
+                    ->get();
         return DataTables::of($result)
             ->addColumn('status', function ($data) {
                 $detail = TransTagihanDetail::where('trans_tagihan_id', $data->id)->sum('payment');
@@ -71,7 +78,7 @@ class TransTagihanController extends Controller
     public function store(Request $request)
     {
 
-        $users      = User::all();
+        $users      = User::where('role','Siswa')->where('status','Aktif')->get();
         $startDate  = $request->startDate;
         $endDate    = $request->endDate;
         list($start_year, $start_month, $start_day) = explode('-', $startDate);
@@ -216,8 +223,8 @@ class TransTagihanController extends Controller
             'customer_details' => array(
                 'nisn' => $payment->user->username,
                 'name' => $payment->user->name,
-                // 'email' => 'budi.pra@example.com',
-                // 'phone' => '08111222333',
+                'email' => $payment->user->email,
+                'phone' => $payment->user->no_telp,
             ),
         );
         $snapToken = \Midtrans\Snap::getSnapToken($params);
@@ -242,7 +249,14 @@ class TransTagihanController extends Controller
                     "payment_date"  => date("Y-m-d"),
                     "payment"       => $request->gross_amount
                 ];
-                $payment    = TransTagihanDetail::where('order_id',$request->order_id)->update($update);
+
+
+                DB::beginTransaction();
+
+
+                try{
+
+                TransTagihanDetail::where('order_id',$request->order_id)->update($update);
                 $getData    = TransTagihanDetail::where('order_id',$request->order_id)->first();
 
                 $header     = TransTagihan::where('id',$getData->trans_tagihan_id)->first();
@@ -253,17 +267,38 @@ class TransTagihanController extends Controller
                     TransTagihan::where('id',$getData->trans_tagihan_id)->update(['status'=>1]);
                 }
 
-                if($payment){
+                $userData   = User::find($header->user_id);
+
+                $detailHeader = [
+                    'name'          => $userData->name,
+                    'username'      => $userData->username,
+                    'payment_date'  => $getData->payment_date
+
+                ];
+
+                $detailData = [
+                    'data' => TransTagihanDetail::with('user', 'TagihanHeader')->where('trans_tagihan_id',$header->id)->get()
+                ];
+                Mail::to($userData->email)->send(new notifMail($detailData,$detailHeader) );
+
+
+
+                    DB::commit();
+
                     $message = array(
                         'status' => true,
                         'message' => 'Pembayaran berhasil'
                     );
-                }else{
+                } catch (\Throwable $th) {
+
+                    DB::rollBack();
+
                     $message = array(
                         'status' => false,
                         'message' => 'Pengembalian data gagal'
                     );
                 }
+
             }
 
 

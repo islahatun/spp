@@ -42,7 +42,7 @@
                                 <h4>Jumlah Siswa Belum Lunas</h4>
                             </div>
                             <div class="card-body">
-                                {{ $belumLunas }}
+                                {{ $belumLunas }} / {{ $totalBL }}
                             </div>
                         </div>
                     </div>
@@ -57,7 +57,7 @@
                                 <h4>Jumlah Siswa Sudah Lunas</h4>
                             </div>
                             <div class="card-body">
-                                {{ $lunas }}
+                                {{ $lunas }} / {{ $totalL }}
                             </div>
                         </div>
                     </div>

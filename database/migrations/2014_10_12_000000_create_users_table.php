@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('kelas');
             $table->string('no_telp');
             $table->string('role');
+            $table->string('status')->default('Aktif');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

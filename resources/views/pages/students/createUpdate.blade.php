@@ -83,6 +83,14 @@
                                                 <input type="email" name="email" value="{{ $user?$user->email:"" }}"
                                                     class="form-control">
                                             </div>
+                                            <div class="form-group">
+                                                <label>Status</label>
+                                                <select name="status" class="form-control">
+                                                    <option value="{{ $user?$user->status:'' }}">{{ $user?$user->status:'' }}</option>
+                                                    <option value="Aktif">Aktif</option>
+                                                    <option value="Tidak Aktif"> Tidak Aktif</option>
+                                                </select>
+                                            </div>
 
                                             <div>
                                                 <button class="btn btn-primary" type="submit">Submit</button>

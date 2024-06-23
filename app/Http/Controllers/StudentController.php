@@ -57,7 +57,8 @@ class StudentController extends Controller
             'name'      => 'required',
             'kelas'     => 'required',
             'email'     => 'required',
-            'no_telp'   => 'required'
+            'no_telp'   => 'required',
+            'status'    => 'required'
         ]);
         $validate['role']       = 'Siswa';
         $validate['password']   = Hash::make('Password123');

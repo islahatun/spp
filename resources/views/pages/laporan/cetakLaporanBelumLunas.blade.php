@@ -38,18 +38,23 @@
                         <td>NISN</td>
                         <td>NAMA</td>
                         <td>KELAS</td>
-                        <td>TAGIHAN</td>
                         <td>JUMLAH BULAN BELUM LUNAS</td>
+                        <td>TAGIHAN</td>
                     </tr>
                     @foreach ($detail as $d )
                     <tr>
                         <td>{{ $d['username'] }}</td>
                         <td>{{ $d['name'] }}</td>
                         <td>{{ $d['kelas'] }}</td>
-                        <td>{{ $d['tagihan'] }}</td>
                         <td>{{ $d['jumlah_bulan'] }} Bulan</td>
+                        <td>Rp {{ $d['tagihan'] }}</td>
                     </tr>
                     @endforeach
+                    <tr>
+                        <td colspan="4" align="center">Total</td>
+                        <td>Rp {{ $total }}</td>
+
+                    </tr>
                 </table>
             </td>
         </tr>

@@ -19,7 +19,11 @@ class laporanController extends Controller
     }
 
     public function pageLunas(){
-        $result = TransTagihan::with('user')->whereNotNull('status')->get();
+        $result = TransTagihan::with('user')->whereNotNull('status')
+                    ->whereHas('user',function($query){
+                        $query->where('role','Siswa');
+                    })
+                    ->get();
         return DataTables::of($result)
             ->addColumn('status', function ($data) {
                 $detail = TransTagihanDetail::where('trans_tagihan_id', $data->id)->sum('payment');
@@ -81,9 +85,14 @@ class laporanController extends Controller
             $fileName   = 'Lapoaran-Pembayaran-Lunas.pdf';
             $view       = 'pages.laporan.cetakLaporanLunas';
             $detail     = TransTagihan::with('user')->whereNotNull('status')->get();
+            $total      = 0;
         }else{
             $fileName   = 'Lapoaran-Pembayaran-Belum-Lunas.pdf';
             $view       = 'pages.laporan.cetakLaporanBelumLunas';
+            $header     = TransTagihan::first();
+            $TotalDetail= TransTagihanDetail::whereNull('payment')->count('id');
+            // dd($header->billing);
+            $total      = $header->billing*$TotalDetail;
             $detail     = TransTagihan::with('user','detail')->whereNull('status')->get()
                         ->map(function($transTagihan){
                             $totalDetail = $transTagihan->detail->sum('payment');
@@ -100,6 +109,7 @@ class laporanController extends Controller
         }
         $content    = [
             'detail'    => $detail,
+            'total'     => $total
         ];
 
 
