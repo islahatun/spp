@@ -19,8 +19,8 @@ class DashboardController extends Controller
             'type_menu'     => 'dashboard',
             'users'         => User::where('role','Siswa')->count(),
             'belumLunas'    => TransTagihan::whereNull('status')->count(),
-            'totalBL'       => $billing->billing*$totalBL,
-            'totalL'        => $billing->billing*$totalL,
+            'totalBL'       => $billing == null?0:$billing->billing*$totalBL,
+            'totalL'        => $billing == null?0:$billing->billing*$totalL,
             'lunas'         => TransTagihan::whereNotNull('status')->count()
         ];
         return view('pages.dashboard.index',$data);

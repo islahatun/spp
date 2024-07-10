@@ -61,7 +61,7 @@ class StudentController extends Controller
             'status'    => 'required'
         ]);
         $validate['role']       = 'Siswa';
-        $validate['password']   = Hash::make('Password123');
+        $validate['password']   = Hash::make('password');
 
         if($request->id){
             $result = User::where('id',$request->id)->update($validate);

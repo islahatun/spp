@@ -105,14 +105,15 @@ class TransTagihanController extends Controller
                 $dataUser   = [
                     'user_id'       => $u->id,
                     'kelas'         => $u->kelas,
-                    'from_date'     => $request->startDate,
-                    'to_date'       => $request->endDate,
+                    'from_date'     => date('Y-m-d',strtotime($request->startDate)),
+                    'to_date'       => date('Y-m-d',strtotime($request->endDate)),
                     'billing'       => $request->billing,
-                    'total_billing' => $request->total_billing
+                    'total_billing' => $request->total_billing,
                 ];
 
 
                 $transTagihan = TransTagihan::create($dataUser);
+                // dd($transTagihan);
                 // Iterasi semua tanggal bulanan antara startDate dan endDate
                 foreach ($allMonths as $month) {
                     $dataTagihan = [
@@ -279,7 +280,7 @@ class TransTagihanController extends Controller
                 $detailData = [
                     'data' => TransTagihanDetail::with('user', 'TagihanHeader')->where('trans_tagihan_id',$header->id)->get()
                 ];
-                Mail::to($userData->email)->send(new notifMail($detailData,$detailHeader) );
+                // Mail::to($userData->email)->send(new notifMail($detailData,$detailHeader) );
 
 
 
@@ -345,7 +346,7 @@ class TransTagihanController extends Controller
         ];
 
         $pdf = PDF::loadview('pages.pembayaran.kwitansi',$content);
-    	return $pdf->download('Kwitansi '.$data->user->username. ' Bulan '. $bulan->translatedFormat('F').'.pdf');
+    	return $pdf->stream('Kwitansi '.$data->user->username. ' Bulan '. $bulan->translatedFormat('F').'.pdf');
 
     }
 }

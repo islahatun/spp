@@ -23,6 +23,7 @@ class UsersImport implements ToModel
             "kelas"     => $row["2"],
             "no_telp"   => $row["3"],
             "email"     => $row["4"],
+            "status"    => $row["5"],
             "role"      => "Siswa",
             "password"  => Hash::make("Password123")
 

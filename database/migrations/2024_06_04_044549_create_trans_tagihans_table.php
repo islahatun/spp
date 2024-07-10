@@ -19,7 +19,7 @@ return new class extends Migration
             $table->date('to_date');
             $table->double('billing');
             $table->double('total_billing');
-            $table->string('status',1);
+            $table->string('status',1)->nullable();
             $table->timestamps();
         });
     }
